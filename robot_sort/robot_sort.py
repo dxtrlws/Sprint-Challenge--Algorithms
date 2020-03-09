@@ -100,49 +100,23 @@ class SortingRobot:
         """
         # Fill this out
 
-        while True:
-            # turn off light to start
-            self.set_light_off()
-
-            # Keep moving right until we can't
-            while self.can_move_right():
-                # Pick up item at current position and move right
+        while self.can_move_right():
+            if self.compare_item() == -1 or self.compare_item() is None:
                 self.swap_item()
-                self.move_right
-
-                # If this position is lower than what we are holding now, swap it
-                if self.compare_item() == 1:
-                    self.swap_item()
-                    self.set_light_on()
-
-                # Move to the left to drop value. It will either return value or swapped value from current position
-                self.move_left()
-                self.swap_item()
-
-                # We are don comparing and swapping (If ned be) at current position. Move to the right
                 self.move_right()
-
-            # if no values were swapped, then we're dond sorting
-            if self.light_is_on() == False:
-                return
-
-            # We run the same samething but left to right
-            self.set_light_off()
-            self.move_left()
-            while self.can_move_left():
+            else:
+                self.move_right()
+        
+        while self.can_move_left():
+            if self.compare_item() == 1:
                 self.swap_item()
                 self.move_left()
-                if self.compare_item() == -1:
-                    self.swap_item()
-                    self.set_light_on()
+            else:
+                self.move_left()
 
-                self.move_right()
-                self.swap_item()
-                self.move_right()
-            if self.light_is_on() == False:
-                return
+        if self._item is not None:
+            self.sort()
 
-        print(self._list)
 
 
 if __name__ == "__main__":
